@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/mybluewebsite/simon-game#readme",
   "devDependencies": {
-    "jest": "29.7"
+    "jest": "29.7",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }
