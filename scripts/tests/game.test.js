@@ -1,9 +1,8 @@
-
 /**
  * @jest-environment jsdom
  */
 
-const { game, newGame, showScore, addTurn, lightsOn } = require("../game");
+const { game, newGame, showScore, addTurn, lightsOn, showTurns } = require("../game");
 
 beforeAll(() => {
     let fs = require("fs");
@@ -28,6 +27,9 @@ describe("game object contains correct keys", () => {
     });
     test("choices contain correct ids", () => {
         expect(game.choices).toEqual(["button1", "button2", "button3", "button4"]);
+    });
+    test("turnNumber key exists", () => {
+        expect("turnNumber" in game).toBe(true);
     });
 });
 
@@ -56,22 +58,27 @@ describe("newGame works correctly", () => {
 describe("gameplay works correctly", () => {
     beforeEach(() => {
         game.score = 0;
-        game.currentMove = [];
+        game.currentGame = [];
         game.playerMoves = [];
         addTurn();
     });
     afterEach(() => {
         game.score = 0;
-        game.currentMove = [];
+        game.currentGame = [];
         game.playerMoves = [];
     });
     test("addTurn adds a new turn to the game", () => {
         addTurn();
-        expect(game.currentGame.length).toBe(3);
+        expect(game.currentGame.length).toBe(2);
     });
     test("should add correct class to light up the buttons", () => {
         let button = document.getElementById(game.currentGame[0]);
         lightsOn(game.currentGame[0]);
-        expect(button.classList).toContain("light");
+        expect(button.classList).toContain(game.currentGame[0] + "light");
+    });
+    test("showTurns should update game.turnNumber", () => {
+        game.turnNumber = 42;
+        showTurns();
+        expect(game.turnNumber).toBe(0);
     });
 });
